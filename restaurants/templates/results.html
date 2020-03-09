@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+<style>
+    .bottom-one {
+        margin-bottom: 1cm;
+    }
+</style>
+<script>
+    function mapClicked(str) {
+        var x = document.getElementById(str);
+        var x = document.getElementById('myDIV');
+        if (x.style.visibility === 'hidden') {
+            x.style.visibility = 'visible';
+        } else {
+            x.style.visibility = 'hidden';
+        }
+    }
+    }
+    function addElement(parentId, elementTag, html) {
+        // Adds an element to the document
+        var p = document.getElementById(parentId);
+        var newElement = document.createElement(elementTag);
+        // newElement.setAttribute('id', elementId);
+        newElement.innerHTML = html;
+        p.appendChild(newElement);
+    }
+</script>
+
+
+
+<h2><em>Results for '{{ term }}'</em></h2>
+
+
+
+
+<p>{{ total }} results</p>
+<iframe width="600" height="450" frameborder="0" style="border:0" src={{ globalsearch_url }}
+                                    allowfullscreen></iframe>
+<div class="container-fluid">
+    <div class="row">
+
+        {% for r in rest %}
+        <div class="col-lg-6">
+            <div class="card mb-3" style="max-width: 400px; max-height: 240px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="{{ r.image_url }}" class="card-img" alt="..." style="max-height: 240px;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-header">{{ r.name }}</h5>
+                            <h6 class="card-header" {{ r.price}}</h6>
+                                <p class="card-text">{{ r.location }}</p>
+                                <p class="card-text">{{ r.display_phone }}</p>
+
+                        </div>
+                        <div class="card-body" id={0}>
+                            <p class="btn pull-right btn-primary bg-danger btn-outline-danger text-white"
+                                onclick="mapClicked('{{ r }}')">View</p>
+                            <!-- <p onclick="mapClicked() class="btn pull-right btn-primary bg-danger btn-outline-danger text-white">View</p> -->
+
+
+                            <div id="{{ r }}" hidden>
+                                <iframe width="600" height="450" frameborder="0" style="border:0" src={{ r.search_url }}
+                                    allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
